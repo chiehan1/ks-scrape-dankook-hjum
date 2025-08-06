@@ -26,6 +26,7 @@ async function main(htmlFolderPath) {
   const htmlPaths = globSync(`${htmlFolderPath}/*.html`).sort(naturalSort)
 
   for (const htmlPath of htmlPaths) {
+    console.log(`process ${htmlPath}`)
     let html = readFileSync(htmlPath, 'utf8').trim()
     html = html.replace(emptyJsRegex, '')
     html = html.replace(commentRegex, '')
@@ -49,10 +50,97 @@ async function main(htmlFolderPath) {
     txtResult = addHjLink(txtResult)
   }
   else if ('hh' === dictId) {
-    txtResult = addHhLink(txtResult)
+    txtResult = addHhWordLink(txtResult)
+    //txtResult = addHhVocaLink(txtResult)
   }
 
   writeFileSync(`${mdxFolderPath}/${mdxFolderName}.txt`, txtResult.trim(), 'utf8')
+}
+
+function addHhVocaLink(txtResult) {
+  const linkLexemeSets = []
+  const table = readFileSync('./lexemeTable/hjWordList.html', 'utf8')
+
+  const lexemeStrsRegex = />([^<]*?)<\/a/g
+  const trsRegex = /<td>\d+<([\s\S]+?)<\/tr>/g
+  const trs = getRegexStrs(table, trsRegex)
+
+  for (const tr of trs) {
+    //console.log(tr)
+    const lexemeStrs = getRegexStrs(tr, lexemeStrsRegex)
+
+    const mainLexemes = getLexemes(lexemeStrs.shift()) 
+
+    for (const mainLexeme of mainLexemes) {
+      let linkLexemes = []
+
+      findQuoteAndStarLexeme(mainLexeme, linkLexemes)
+
+      for (const lexemeStr of lexemeStrs) {
+        const lexemes = getLexemes(lexemeStr)
+        
+        for (const lexeme of lexemes) {
+          linkLexemes.push(lexeme)
+          findQuoteAndStarLexeme(lexeme, linkLexemes)
+        }
+      }
+
+      linkLexemes = [ ...new Set(linkLexemes) ]
+
+      for (const linkLexeme of linkLexemes) {
+        linkLexemeSets.push([ linkLexeme, mainLexeme ])
+      } 
+    }
+  }
+
+  for (const [ linkLexeme, mainLexeme ] of linkLexemeSets) {
+    txtResult += `${linkLexeme}\r\n@@@LINK=${mainLexeme}\r\n</>\r\n`
+  }
+
+  return txtResult
+}
+
+function addHhWordLink(txtResult) {
+  const linkLexemeSets = []
+  const table = readFileSync('./lexemeTable/hhWordList.html', 'utf8')
+
+  const lexemeStrsRegex = />([^<]*?)<\/a/g
+  const trsRegex = /<td>\d+<([\s\S]+?)<\/tr>/g
+  const trs = getRegexStrs(table, trsRegex)
+
+  for (const tr of trs) {
+    //console.log(tr)
+    const lexemeStrs = getRegexStrs(tr, lexemeStrsRegex)
+
+    const mainLexemes = getLexemes(lexemeStrs.shift()) 
+
+    for (const mainLexeme of mainLexemes) {
+      let linkLexemes = []
+
+      findQuoteAndStarLexeme(mainLexeme, linkLexemes)
+
+      for (const lexemeStr of lexemeStrs) {
+        const lexemes = getLexemes(lexemeStr)
+        
+        for (const lexeme of lexemes) {
+          linkLexemes.push(lexeme)
+          findQuoteAndStarLexeme(lexeme, linkLexemes)
+        }
+      }
+
+      linkLexemes = [ ...new Set(linkLexemes) ]
+
+      for (const linkLexeme of linkLexemes) {
+        linkLexemeSets.push([ linkLexeme, mainLexeme ])
+      } 
+    }
+  }
+
+  for (const [ linkLexeme, mainLexeme ] of linkLexemeSets) {
+    txtResult += `${linkLexeme}\r\n@@@LINK=${mainLexeme}\r\n</>\r\n`
+  }
+
+  return txtResult
 }
 
 function addHjLink(txtResult) {
