@@ -61,11 +61,11 @@ function addHjumLink(txtResult) {
 
   const lexemeStrsRegex = />([^<]*?)<\/a/g
   const trsRegex = /<td>\d+<([\s\S]+?)<\/tr>/g
-  const trs = [ ...table.matchAll(trsRegex) ].map(regexInfo => regexInfo[1])
+  const trs = getRegexStrs(table, trsRegex)
 
   for (const tr of trs) {
     //console.log(tr)
-    const lexemeStrs = [ ...tr.matchAll(lexemeStrsRegex) ].map(regexInfo => regexInfo[1])
+    const lexemeStrs = getRegexStrs(tr, lexemeStrsRegex)
 
     const mainLexemes = getLexemes(lexemeStrs.shift()) 
 
