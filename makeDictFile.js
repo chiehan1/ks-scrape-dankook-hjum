@@ -101,7 +101,7 @@ function addHjumLink(txtResult) {
 function findQuoteAndStarLexeme(lexeme, linkLexemes) {
   const lexemes4Check = [ lexeme ]
 
-  if (/☆/.test(str)) {
+  if (/☆/.test(lexeme)) {
     const removeStarLexeme = lexeme.replace(/☆/g, '').trim()
     
     if (removeStarLexeme) {
@@ -131,8 +131,7 @@ function getRegexStrs(str, regex) {
 }
 
 function getLexemes(str) {
-  const lexemes = str.replace(/[☆]/g, '')
-    .split(/[；\/]/)
+  const lexemes = str.split(/[；\/]/)
     .map(str => str.trim())
     .filter(str => str)
 
