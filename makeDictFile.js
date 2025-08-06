@@ -232,8 +232,8 @@ function addHjumLink(txtResult) {
 function findQuoteAndStarLexeme(lexeme, linkLexemes) {
   const lexemes4Check = [ lexeme ]
 
-  if (/☆/.test(lexeme)) {
-    const removeStarLexeme = lexeme.replace(/☆/g, '').trim()
+  if (/[☆★]/.test(lexeme)) {
+    const removeStarLexeme = lexeme.replace(/[☆★]/g, '').trim()
     
     if (removeStarLexeme) {
       linkLexemes.push(removeStarLexeme)
