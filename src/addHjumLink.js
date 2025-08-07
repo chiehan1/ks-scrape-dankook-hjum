@@ -1,8 +1,9 @@
-import { findQuoteAndStarLexeme, getRegexStrs, getLexemes } from './tools'
+import { readFileSync } from 'fs'
+import { findQuoteAndStarLexeme, getRegexStrs, getLexemes } from './tools.js'
 
 export function addHjumLink(txtResult) {
   const linkLexemeSets = []
-  const table = readFileSync('../lexemeTable/hjumLexemeList.html', 'utf8')
+  const table = readFileSync('./lexemeTable/hjumLexemeList.html', 'utf8')
 
   const lexemeStrsRegex = />([^<]*?)<\/a/g
   const trsRegex = /<td>\d+<([\s\S]+?)<\/tr>/g

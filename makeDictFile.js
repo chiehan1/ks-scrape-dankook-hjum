@@ -4,7 +4,7 @@ import { globSync } from 'glob'
 import naturalSort from 'javascript-natural-sort'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs'
 import { basename, resolve } from 'path'
-import { addHjumLink } from './src/addHjumLink'
+import { addHjumLink } from './src/addHjumLink.js'
 
 const importCss = '<link rel="stylesheet" href="style/base.css"><link rel="stylesheet" href="style/content.css"><link rel="stylesheet" href="style/common.css">'
 const emptyJsRegex = /<script [^>]+?>[\s\S]+?<\/script>/g
