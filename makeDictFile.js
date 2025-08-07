@@ -52,7 +52,7 @@ async function main(htmlFolderPath) {
   }
   else if ('hh' === dictId) {
     txtResult = addHhWordLink(txtResult)
-    //txtResult = addHhVocaLink(txtResult)
+    txtResult = addHhVocaLink(txtResult)
   }
 
   writeFileSync(`${mdxFolderPath}/${mdxFolderName}.txt`, txtResult.trim(), 'utf8')

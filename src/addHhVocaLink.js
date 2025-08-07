@@ -5,8 +5,8 @@ export function addHhVocaLink(txtResult) {
   const linkLexemeSets = []
   const table = readFileSync('./lexemeTable/hhVocaList.html', 'utf8')
 
-  const lexemeStrsRegex = />([^<]*?)<\/a/g
-  const trsRegex = /<td>\d+<([\s\S]+?)<\/tr>/g
+  const lexemeStrsRegex = />([^<]*?)<\/(?:a|td)/g
+  const trsRegex = /<td>\d+<\/td>([\s\S]+?)<\/tr>/g
   const trs = getRegexStrs(table, trsRegex)
 
   for (const tr of trs) {
